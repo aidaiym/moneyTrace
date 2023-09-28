@@ -1,6 +1,8 @@
 package com.example.moneytrace
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.moneytrace.data.database.Balance
 import com.example.moneytrace.data.database.BalanceDao
@@ -11,7 +13,17 @@ import com.example.moneytrace.data.database.FinancialTransactions
 
 @Database(entities = [Category::class, FinancialTransactions::class, Balance::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract val categoryDao: CategoryDao
-    abstract val financialTransactionDao: FinancialTransactionDao
     abstract val balanceDao: BalanceDao
+    abstract val categoryDao: CategoryDao
+    abstract val financialTransactionDao:FinancialTransactionDao
+    companion object{
+        fun createDataBase(context: Context): AppDatabase{
+            return Room.databaseBuilder(
+                context,
+                AppDatabase::class.java,
+                "moneytrace.db"
+            ).build()
+        }
+    }
+
 }
