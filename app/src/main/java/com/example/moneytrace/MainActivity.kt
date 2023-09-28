@@ -1,6 +1,7 @@
 package com.example.moneytrace
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -22,9 +23,12 @@ import androidx.compose.ui.unit.dp
 import com.example.moneytrace.screens.MainCard
 import com.example.moneytrace.ui.theme.MoneyTraceTheme
 
+
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("MyLog", "1")
         setContent {
             MoneyTraceTheme {
                 // A surface container using the 'background' color from the theme
@@ -35,6 +39,7 @@ class MainActivity : ComponentActivity() {
                     MainCard()
                 }
             }
+
         }
     }
 }

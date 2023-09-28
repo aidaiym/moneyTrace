@@ -1,6 +1,7 @@
 package com.example.moneytrace.screens
 
 import android.graphics.fonts.FontStyle
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -79,6 +80,7 @@ fun MainCard() {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TabLayout() {
+    Log.d("MyLog", "1")
     val tabList = listOf("В этом месяце", "Планы на будущее")
     val state = rememberPagerState(initialPage = 0, pageCount = { 2 })
     val tabIndex = state.currentPage
