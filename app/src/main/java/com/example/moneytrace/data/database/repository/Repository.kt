@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 class Repository (
     private val db: AppDatabase,
 ) {
-    private val categoryDao get() = db.balanceDao
+    private val balanceDao get() = db.balanceDao
 
-    fun getBalance(): Flow<List<Balance>> = categoryDao.getBalance()
-    suspend fun updateBalance(balance: Balance) = categoryDao.updateBalance(balance)
+    fun getBalance(): Flow<List<Balance>> = balanceDao.getBalance()
+    suspend fun updateBalance(balance: Balance) = balanceDao.updateBalance(balance)
 }
