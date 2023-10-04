@@ -26,6 +26,30 @@ class MainViewModel(val database: MainDb): ViewModel() {
     var number:Long = 0
     val newBalance = mutableStateOf(number)
 
+    var categoryEntity: CategoryEntity? = null
+    var newCategoryName = mutableStateOf("")
+    var newCategoryType = mutableStateOf("Доход")
+
+    fun insertCategory() = viewModelScope.launch {
+
+        val categoryItem = CategoryEntity(name = newCategoryName.value, type = newCategoryType.value)
+
+        database.categoryDao.insertCategory(categoryItem)
+
+        Log.d("MyLog", "4")
+        categoryEntity = null
+        newCategoryName = mutableStateOf("")
+        newCategoryType = mutableStateOf("Доход")
+
+
+
+
+        Log.d("MyLog", "dfsdf")
+
+    }
+
+
+
     fun insertBalance() = viewModelScope.launch {
         Log.d("MyLog", "dfsdf")
         Log.d("MyLog", "$newBalance")

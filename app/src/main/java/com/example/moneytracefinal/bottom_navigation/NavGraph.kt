@@ -24,7 +24,7 @@ fun NavGraph(
             CategoryScreen(navController = navHostController)
         }
         composable("CreateCategoryScreen"){
-            CreateCategoryScreen()
+            CreateCategoryScreen(navController = navHostController)
         }
     }
 }
