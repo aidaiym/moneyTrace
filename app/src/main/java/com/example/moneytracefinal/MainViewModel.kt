@@ -1,6 +1,8 @@
 package com.example.moneytracefinal
 
 import android.util.Log
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +12,7 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.moneytracefinal.data.BalanceEntity
 import com.example.moneytracefinal.data.CategoryEntity
 import com.example.moneytracefinal.data.DateEntity
+import com.example.moneytracefinal.data.FinancialTransactions
 
 import com.example.moneytracefinal.data.MainDb
 import kotlinx.coroutines.launch
@@ -100,6 +103,25 @@ class MainViewModel(val database: MainDb): ViewModel() {
 
         database.dateDao.updateDate(newDate)
     }
+
+    //Transaction
+
+    val transaction = database.financialTransactionsDao.getAllTransactions()
+
+
+    val newTransactionStr = mutableStateOf("0")
+    val catTransaction = mutableLongStateOf(0)
+    val description = mutableStateOf("")
+    val datemonth = mutableStateOf("")
+
+
+    fun insertTransaction(currentDate: String) = viewModelScope.launch {
+        val newTransaction = FinancialTransactions(summa = newTransactionStr.value.toLong(), categoryId = catTransaction.longValue, date = currentDate, description = description.value)
+
+        database.financialTransactionsDao.insertTransaction(newTransaction)
+    }
+
+    val getAllTransactionsByMonth = database.financialTransactionsDao.getAllTransactionsByMonth(datemonth.value)
 
 
 

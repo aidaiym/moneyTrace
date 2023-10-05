@@ -18,7 +18,7 @@ fun NavGraph(
             FinancialTransactionScreen()
         }
         composable("CreateTransactionScreen"){
-            CreateTransactionScreen()
+            CreateTransactionScreen(navController = navHostController)
         }
         composable("CategoryScreen"){
             CategoryScreen(navController = navHostController)

@@ -14,4 +14,6 @@ interface FinancialTransactionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTransaction(transaction: FinancialTransactions)
 
+    @Query("SELECT * FROM FinancialTransactions WHERE date LIKE :chosenDate || '%'")
+    fun getAllTransactionsByMonth(chosenDate: String): Flow<List<FinancialTransactions>>
 }

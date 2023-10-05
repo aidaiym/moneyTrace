@@ -3,6 +3,7 @@ package com.example.moneytracefinal.Screens
 import android.content.Entity
 import android.content.SharedPreferences
 import android.util.Log
+import android.view.SurfaceControl.Transaction
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -14,6 +15,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -47,6 +50,8 @@ fun FinancialTransactionScreen(
     val balanceList = mainViewModel.balance.collectAsState(initial = emptyList())
 
     val dateList = mainViewModel.date.collectAsState(initial = emptyList())
+
+
 
     val balance = balanceList.value.firstOrNull()?.balance ?: 0
 
@@ -95,9 +100,10 @@ fun TabLayout(mainViewModel: MainViewModel = viewModel(
 
 
     val dateList = mainViewModel.date.collectAsState(initial = emptyList())
-    val state = rememberPagerState(initialPage = 0, pageCount = { 2 })
+    val state = rememberPagerState(initialPage = 0, pageCount = { dateList.value.size })
     val tabIndex = state.currentPage
     val coroutineScope = rememberCoroutineScope()
+    val dateByMonth = mainViewModel.getAllTransactionsByMonth.collectAsState(initial = emptyList())
 
 
 
@@ -115,7 +121,7 @@ fun TabLayout(mainViewModel: MainViewModel = viewModel(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            dateList.value.forEachIndexed{index, item ->
+            dateList.value.reversed().forEachIndexed{index, item ->
                 Box(
                     modifier = Modifier
                         .height(60.dp)
@@ -125,7 +131,10 @@ fun TabLayout(mainViewModel: MainViewModel = viewModel(
                         .background(
                             color = if (tabIndex == index) Color.White else colorResource(id = R.color.gray_5)
                         )
-                        .clickable { coroutineScope.launch { state.scrollToPage(index) } },
+                        .clickable {
+                            coroutineScope.launch { state.scrollToPage(index) }
+                            mainViewModel.datemonth.value = item.date
+                        },
                     Alignment.Center
                 ) {
                     Text(
@@ -142,15 +151,14 @@ fun TabLayout(mainViewModel: MainViewModel = viewModel(
 
         HorizontalPager(
             state = state,
-            beyondBoundsPageCount = 2,
             modifier = Modifier.fillMaxWidth()
         )
         { page ->
             Column() {
-                when (page) {
-                    0 -> Text(text = "$page")
-                    1 -> Text(text = "$page")
-                    else -> "dfgdfg"
+                LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                    items(dateByMonth.value) { item ->
+                        TransactionListItem(item)
+                    }
                 }
             }
 
