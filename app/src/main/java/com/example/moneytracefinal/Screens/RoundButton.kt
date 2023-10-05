@@ -23,10 +23,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.moneytracefinal.MainViewModel
+import com.example.moneytracefinal.R
 
 @Composable
 fun RoundButton(text: String, isSelected: Boolean, onClick: () -> Unit) {
@@ -34,14 +36,16 @@ fun RoundButton(text: String, isSelected: Boolean, onClick: () -> Unit) {
         onClick = onClick,
         shape = CircleShape,
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (isSelected) Color.Green else Color.Gray,
-            contentColor = Color.White
+            containerColor = if (isSelected) colorResource(id = R.color.purple_str) else colorResource(
+                id = R.color.gray_5
+            ),
+            contentColor = Color.Black
         ),
         modifier = Modifier
-            .size(64.dp)
+            .size(35.dp)
             .padding(8.dp)
     ) {
-        Text(text = text, fontSize = 16.sp)
+        
     }
 }
 
@@ -70,6 +74,7 @@ fun TwoRoundButtons(mainViewModel: MainViewModel = viewModel(factory = MainViewM
                     mainViewModel.newCategoryType.value = "Доход"
                 }
             )
+            Text(text = "Доход", color = colorResource(id = R.color.white))
 
             Spacer(modifier = Modifier.width(16.dp))
 
@@ -80,6 +85,7 @@ fun TwoRoundButtons(mainViewModel: MainViewModel = viewModel(factory = MainViewM
                 selectedOption2 = true
                 mainViewModel.newCategoryType.value = "Расход"}
             )
+            Text(text = "Расход", color = colorResource(id = R.color.white))
         }
     }
 }

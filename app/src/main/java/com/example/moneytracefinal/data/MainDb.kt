@@ -9,15 +9,17 @@ import androidx.room.RoomDatabase
     entities = [
         BalanceEntity::class,
         CategoryEntity::class,
-        FinancialTransactions::class
+        FinancialTransactions::class,
+        DateEntity::class,
     ],
-    version = 1
+    version = 2
 )
 
 abstract class MainDb : RoomDatabase() {
     abstract val balanceDao: BalanceDao
     abstract val categoryDao: CategoryDao
     abstract val financialTransactionsDao: FinancialTransactionDao
+    abstract val dateDao: DateDao
     companion object {
         fun createDataBase(context: Context):MainDb {
             return Room.databaseBuilder(

@@ -46,6 +46,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,12 +56,32 @@ import kotlinx.coroutines.launch
 fun MainScreen(sharedPreferences:SharedPreferences,
     mainViewModel: MainViewModel = viewModel(factory = MainViewModel.factory
     )) {
-    
 
-    val isDefaultCategoriesInserted = sharedPreferences.getBoolean("isDefaultCategoriesInserted", false)
+    val dateList = mainViewModel.date.collectAsState(initial = emptyList())
 
-    if (!isDefaultCategoriesInserted) {
+    val isDefaultSettingsInserted = sharedPreferences.getBoolean("isDefaultCategoriesInserted", false)
+
+    val currentDate = remember {
+        val dateFormat = SimpleDateFormat("MM.yy", Locale.getDefault())
+        dateFormat.format(Date())
+    }
+
+    dateList.value.forEachIndexed(){index, item ->
+        if(listOf(item).isEmpty()){
+            Log.d("MyLog", "Empty")
+        }
+        else{
+
+            if (currentDate != item.date){
+                mainViewModel.insertDate(currentDate)
+            }
+        }
+    }
+
+
+    if (!isDefaultSettingsInserted) {
         mainViewModel.insertDefaultCategory()
+        mainViewModel.insertDate(currentDate)
 
         sharedPreferences.edit().putBoolean("isDefaultCategoriesInserted", true).apply()
     }
