@@ -137,6 +137,8 @@ fun TabLayout(mainViewModel: MainViewModel = viewModel(
                         },
                     Alignment.Center
                 ) {
+                    Log.d("PPPP", mainViewModel.datemonth.value)
+                    Log.d("PPPP", dateByMonth.value.toString())
                     Text(
 
                         text = if(listOf(item).isEmpty()) "" else item.date,

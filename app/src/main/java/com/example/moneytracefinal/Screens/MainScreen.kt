@@ -66,16 +66,9 @@ fun MainScreen(sharedPreferences:SharedPreferences,
         dateFormat.format(Date())
     }
 
-    dateList.value.forEachIndexed(){index, item ->
-        if(listOf(item).isEmpty()){
-            Log.d("MyLog", "Empty")
-        }
-        else{
 
-            if (currentDate != item.date){
-                mainViewModel.insertDate(currentDate)
-            }
-        }
+    if (dateList.value.isNotEmpty() && currentDate != dateList.value.last().date) {
+        mainViewModel.insertDate(currentDate)
     }
 
 
